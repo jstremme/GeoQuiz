@@ -105,11 +105,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void previousQuestion() {
-        if (mCurrentIndex == 0) {
-            mCurrentIndex = (mCurrentIndex = mQuestionBank.length-1);
-        } else {
-            mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
-        }
+        mCurrentIndex = ((mCurrentIndex - 1) + mQuestionBank.length) % mQuestionBank.length;
         updateQuestion();
     }
 }
