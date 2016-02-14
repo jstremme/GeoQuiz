@@ -4,6 +4,8 @@
     <string name="false_button">False</string>
     <string name="next_button">Next</string>
     <string name="previous_button">Previous</string>
+    <string name="previous_button_content_description">This button takes you to the previous question.</string>
+    <string name="next_button_content_description">This button takes you to the next question.</string>
     <string name="correct_toast">Correct!</string>
     <string name="incorrect_toast">Incorrect!</string>
     <string name="action_settings">Settings</string>
