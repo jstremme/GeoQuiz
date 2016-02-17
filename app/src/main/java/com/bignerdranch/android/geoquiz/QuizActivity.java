@@ -18,6 +18,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mFalseButton;
     private ImageButton mNextButton;
     private ImageButton mPreviousButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
 
     private Question[] mQuestionBank = new Question[] {
@@ -100,6 +101,14 @@ public class QuizActivity extends AppCompatActivity {
                 previousQuestion();
              }
        });
+
+        mCheatButton = (Button) findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start CheatActivity
+            }
+        });
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
