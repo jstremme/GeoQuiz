@@ -126,7 +126,6 @@ public class QuizActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
             mIsCheater = savedInstanceState.getBoolean(CHEATED, mIsCheater);
-
         }
 
        updateQuestion();

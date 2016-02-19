@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -50,6 +51,10 @@ public class CheatActivity extends AppCompatActivity {
                 setAnswerShownResult(true);
             }
         });
+
+        if (savedInstanceState != null) {
+            setAnswerShownResult(true);
+        }
     }
 
     private void setAnswerShownResult(boolean isAnswerShown) {
@@ -57,4 +62,5 @@ public class CheatActivity extends AppCompatActivity {
         data.putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown);
         setResult(RESULT_OK, data);
     }
+
 }
