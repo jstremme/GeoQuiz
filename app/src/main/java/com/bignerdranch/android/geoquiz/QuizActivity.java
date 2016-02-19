@@ -25,7 +25,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mCheatButton;
     private TextView mQuestionTextView;
 
-    private Question[] mQuestionBank = new Question[] {
+    private Question[] mQuestionBank = new Question[] { //add another boolean saying if cheat happened
             new Question(R.string.question_oceans, true),
             new Question(R.string.question_mideast, false),
             new Question(R.string.question_africa, false),
@@ -43,6 +43,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private void checkAnswer(boolean userPressedTrue) {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+        // boolean mIsCheater = ' '.cheated()  must create method
 
         int messageResId = 0;
 
@@ -99,7 +100,7 @@ public class QuizActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                mIsCheater = false;
+                mIsCheater = false; //edit... don't need this if setting values in bank
                 nextQuestion();
             }
         });
@@ -108,7 +109,7 @@ public class QuizActivity extends AppCompatActivity {
         mPreviousButton.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 mIsCheater = false;
+                 mIsCheater = false; //edit... don't need this if setting values in bank
                  previousQuestion();
              }
        });
@@ -125,7 +126,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
-            mIsCheater = savedInstanceState.getBoolean(CHEATED, mIsCheater);
+            mIsCheater = savedInstanceState.getBoolean(CHEATED, mIsCheater); //shouldn't need to change, should I?
         }
 
        updateQuestion();
@@ -142,7 +143,7 @@ public class QuizActivity extends AppCompatActivity {
             if (data == null) {
                 return;
             }
-            mIsCheater = CheatActivity.wasAnswerShown(data);
+            mIsCheater = CheatActivity.wasAnswerShown(data); //good?
         }
     }
 
@@ -151,7 +152,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
-        savedInstanceState.putBoolean(CHEATED, mIsCheater);
+        savedInstanceState.putBoolean(CHEATED, mIsCheater); //good?
     }
 
     @Override

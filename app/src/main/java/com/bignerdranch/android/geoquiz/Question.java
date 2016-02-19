@@ -5,7 +5,7 @@ public class Question {
     private int mTextResId;
     private boolean mAnswerTrue;
 
-    public Question(int textResId, boolean answerTrue) {
+    public Question(int textResId, boolean answerTrue) { //add boolean saying if cheat occured? also add getter
         mTextResId = textResId;
         mAnswerTrue = answerTrue;
     }
