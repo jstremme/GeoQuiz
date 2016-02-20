@@ -25,13 +25,15 @@ public class QuizActivity extends AppCompatActivity {
     private Button mCheatButton;
     private TextView mQuestionTextView;
 
-    private Question[] mQuestionBank = new Question[] { //add another boolean saying if cheat happened
+    private Question[] mQuestionBank = new Question[] {
             new Question(R.string.question_oceans, true),
             new Question(R.string.question_mideast, false),
             new Question(R.string.question_africa, false),
             new Question(R.string.question_americas, true),
             new Question(R.string.question_asia, true),
     };
+
+    private boolean[] mCheatedBank = new boolean[5];
 
     private int mCurrentIndex = 0;
     private boolean mIsCheater;
@@ -43,7 +45,6 @@ public class QuizActivity extends AppCompatActivity {
 
     private void checkAnswer(boolean userPressedTrue) {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
-        // boolean mIsCheater = ' '.cheated()  must create method
 
         int messageResId = 0;
 
@@ -100,22 +101,22 @@ public class QuizActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                mIsCheater = false; //edit... don't need this if setting values in bank
                 nextQuestion();
             }
         });
 
         mPreviousButton = (ImageButton) findViewById(R.id.previous_button);
         mPreviousButton.setOnClickListener(new View.OnClickListener() {
+
              @Override
              public void onClick(View v) {
-                 mIsCheater = false; //edit... don't need this if setting values in bank
                  previousQuestion();
              }
        });
 
         mCheatButton = (Button) findViewById(R.id.cheat_button);
         mCheatButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
@@ -126,7 +127,8 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
-            mIsCheater = savedInstanceState.getBoolean(CHEATED, mIsCheater); //shouldn't need to change, should I?
+            mIsCheater = savedInstanceState.getBoolean(CHEATED, mIsCheater);
+            mCheatedBank[mCurrentIndex] = mIsCheater;
         }
 
        updateQuestion();
@@ -143,7 +145,8 @@ public class QuizActivity extends AppCompatActivity {
             if (data == null) {
                 return;
             }
-            mIsCheater = CheatActivity.wasAnswerShown(data); //good?
+            mIsCheater = CheatActivity.wasAnswerShown(data);
+            mCheatedBank[mCurrentIndex] = mIsCheater;
         }
     }
 
@@ -152,7 +155,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
-        savedInstanceState.putBoolean(CHEATED, mIsCheater); //good?
+        savedInstanceState.putBoolean(CHEATED, mIsCheater);
     }
 
     @Override
@@ -187,11 +190,13 @@ public class QuizActivity extends AppCompatActivity {
 
     private void nextQuestion() {
         mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+        mIsCheater = mCheatedBank[mCurrentIndex];
         updateQuestion();
     }
 
     private void previousQuestion() {
         mCurrentIndex = ((mCurrentIndex - 1) + mQuestionBank.length) % mQuestionBank.length;
+        mIsCheater = mCheatedBank[mCurrentIndex];
         updateQuestion();
     }
 }
