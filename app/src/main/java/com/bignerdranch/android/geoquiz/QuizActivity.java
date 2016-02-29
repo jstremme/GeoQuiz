@@ -36,7 +36,6 @@ public class QuizActivity extends AppCompatActivity {
     private boolean[] mCheatedBank = new boolean[5];
 
     private int mCurrentIndex = 0;
-    private boolean mIsCheater;
 
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getTextResId();
@@ -46,9 +45,9 @@ public class QuizActivity extends AppCompatActivity {
     private void checkAnswer(boolean userPressedTrue) {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
 
-        int messageResId = 0;
+        int messageResId;
 
-        if (mIsCheater) {
+        if (mCheatedBank[mCurrentIndex]) {
             messageResId = R.string.judgement_toast;
         } else {
             if (userPressedTrue == answerIsTrue) {
@@ -127,8 +126,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
-            mIsCheater = savedInstanceState.getBoolean(CHEATED, mIsCheater);
-            mCheatedBank[mCurrentIndex] = mIsCheater;
+            mCheatedBank[mCurrentIndex] = savedInstanceState.getBoolean(CHEATED, mCheatedBank[mCurrentIndex]);
         }
 
        updateQuestion();
@@ -145,8 +143,7 @@ public class QuizActivity extends AppCompatActivity {
             if (data == null) {
                 return;
             }
-            mIsCheater = CheatActivity.wasAnswerShown(data);
-            mCheatedBank[mCurrentIndex] = mIsCheater;
+            mCheatedBank[mCurrentIndex] = CheatActivity.wasAnswerShown(data);
         }
     }
 
@@ -155,7 +152,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
-        savedInstanceState.putBoolean(CHEATED, mIsCheater);
+        savedInstanceState.putBoolean(CHEATED, mCheatedBank[mCurrentIndex]);
     }
 
     @Override
@@ -190,13 +187,11 @@ public class QuizActivity extends AppCompatActivity {
 
     private void nextQuestion() {
         mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-        mIsCheater = mCheatedBank[mCurrentIndex];
         updateQuestion();
     }
 
     private void previousQuestion() {
         mCurrentIndex = ((mCurrentIndex - 1) + mQuestionBank.length) % mQuestionBank.length;
-        mIsCheater = mCheatedBank[mCurrentIndex];
         updateQuestion();
     }
 }
